@@ -31,6 +31,11 @@ class EventService(BaseService):
         options = params.get('options', {})
         data = params.get('data', {})
 
+        # test comment
+        print(f'[Request body data in event_service params] {params}')
+        print(f'[Request body data in event_service params.data] {data}')
+        _LOGGER.debug(f'[Request body data in event_service] {data}')
+
         parsed_event = self.event_mgr.parse(options, data)
         _LOGGER.debug(f'[EventService: parse] {parsed_event}')
         return parsed_event
