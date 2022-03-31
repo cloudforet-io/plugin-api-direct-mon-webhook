@@ -1,5 +1,7 @@
 import logging
 from spaceone.core.service import *
+from spaceone.core.utils import *
+from spaceone.monitoring.error.event import *
 from spaceone.monitoring.manager.event_manager import EventManager
 
 _LOGGER = logging.getLogger(__name__)
@@ -17,8 +19,7 @@ class EventService(BaseService):
     @transaction
     @check_required(['options', 'data'])
     def parse(self, params):
-        """Get Google StackDriver metric data
-
+        """
         Args:
             params (dict): {
                 'options': 'dict',
@@ -31,11 +32,21 @@ class EventService(BaseService):
         options = params.get('options', {})
         data = params.get('data', {})
 
-        # test comment
-        print(f'[Request body data in event_service params] {params}')
-        print(f'[Request body data in event_service params.data] {data}')
-        _LOGGER.debug(f'[Request body data in event_service] {data}')
+        self.validate_additional_info_data(data)
+
+        data.update({
+            "occurred_at": iso8601_to_datetime(data.get('occurred_at'))
+        })
 
         parsed_event = self.event_mgr.parse(options, data)
         _LOGGER.debug(f'[EventService: parse] {parsed_event}')
         return parsed_event
+
+    @staticmethod
+    def validate_additional_info_data(data):
+        if additional_info := data.get('additional_info', {}):
+            for _k, _v in additional_info.items():
+                try:
+                    additional_info[str(_k)] = str(_v)
+                except:
+                    del additional_info[_k]

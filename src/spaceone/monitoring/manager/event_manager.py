@@ -1,6 +1,4 @@
 import logging
-
-from spaceone.core.utils import *
 from spaceone.core.manager import BaseManager
 from spaceone.monitoring.model.event_response_model import EventModel
 from spaceone.monitoring.error.event import *
@@ -34,10 +32,6 @@ class EventManager(BaseManager):
         """
 
         try:
-            data.update({
-                "occurred_at": iso8601_to_datetime(data.get('occurred_at'))
-            })
-
             event_model = EventModel(data, strict=False)
             event_model.validate()
             return [event_model.to_native()]
