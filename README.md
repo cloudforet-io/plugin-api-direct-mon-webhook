@@ -47,7 +47,7 @@ Please contact us if you need any further information. (support@spaceone.dev)
         "additional_info": {
             "asdlkafjsdlkf": "asdfasdf"
         },
-        "occurred_at": 'datetime'
+        "occurred_at": "datetime"
     }
 }
 ```
