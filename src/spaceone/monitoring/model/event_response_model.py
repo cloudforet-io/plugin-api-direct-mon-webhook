@@ -20,4 +20,4 @@ class EventModel(Model):
     rule = StringType(default='')
     image_url = StringType(default='')
     occurred_at = DateTimeType()
-    additional_info = DictType(StringType(), default={})
+    additional_info = DictType(StringType, default={})
