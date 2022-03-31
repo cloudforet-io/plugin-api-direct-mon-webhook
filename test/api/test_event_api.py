@@ -30,7 +30,9 @@ class TestEvent(TestCase):
                     "name": "asdfasldkfjaslkdfj"
                 },
                 "additional_info": {
-                    "asdlkafjsdlkf": "asdfasdf"
+                    "additional_info_key": "additional_info_value",
+                    "add": ["aaaaa"],
+                    "ccc": {"dddd": "fffff"}
                 },
                 "occurred_at": datetime.datetime.utcnow().isoformat()
             }
@@ -42,7 +44,6 @@ class TestEvent(TestCase):
             print(f'###### {idx} ########')
             parsed_data = self.monitoring.Event.parse({'options': {}, 'data': test_case.get('data')})
             print_json(parsed_data)
-            print()
 
 
 if __name__ == "__main__":
