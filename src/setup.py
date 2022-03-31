@@ -16,14 +16,14 @@
 
 from setuptools import setup, find_packages
 
-with open('VERSION', 'r') as f: 
+with open('VERSION', 'r') as f:
     VERSION = f.read().strip()
     f.close()
 
 setup(
-    name='plugin-zabbix-mon-webhook',
+    name='plugin-api-direct-mon-webhook',
     version=VERSION,
-    description='Zabbix monitoring Webhook',
+    description='SpaceONE api-direct monitoring Webhook',
     long_description='',
     url='https://www.spaceone.dev/',
     author='MEGAZONE SpaceONE Team',

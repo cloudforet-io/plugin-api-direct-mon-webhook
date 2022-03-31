@@ -29,7 +29,6 @@ class EventService(BaseService):
         Returns:
             plugin_metric_data_response (dict)
         """
-
         options = params.get('options', {})
         data = params.get('data', {})
 
