@@ -72,7 +72,5 @@ Please contact us if you need any further information. (support@spaceone.dev)
 
 ### Ver 1.1
 
----
-
 Enhancement
 - Add validation in API Direct Webhook [#7](https://github.com/spaceone-dev/plugin-api-direct-mon-webhook/issues/7)
