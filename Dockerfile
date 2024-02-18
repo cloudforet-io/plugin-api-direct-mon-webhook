@@ -1,4 +1,4 @@
-FROM cloudforet/python-core:1
+FROM cloudforet/python-core:2
 
 ENV PYTHONUNBUFFERED 1
 ENV CLOUDONE_PORT 50051
@@ -19,10 +19,9 @@ RUN pip install --upgrade spaceone-api
 COPY src ${SRC_DIR}
 
 WORKDIR ${SRC_DIR}
-RUN python3 setup.py install && \
-    rm -rf /tmp/*
+RUN python3 setup.py install && rm -rf /tmp/*
 
 EXPOSE ${CLOUDONE_PORT}
 
 ENTRYPOINT ["spaceone"]
-CMD ["grpc", "spaceone.monitoring"]
+CMD ["run", "grpc-server", "spaceone.monitoring"]
