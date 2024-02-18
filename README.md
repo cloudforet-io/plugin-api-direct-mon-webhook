@@ -5,7 +5,7 @@
   <img width="245" src="https://user-images.githubusercontent.com/35549653/76694897-de236300-66bb-11ea-9ace-b9edde9c12da.png">  
   <p> 
    <br>
-    <img  alt="Version"  src="https://img.shields.io/badge/version-1.2.4-blue.svg?cacheSeconds=2592000"  />    
+    <img  alt="Version"  src="https://img.shields.io/badge/version-1.2.5-blue.svg?cacheSeconds=2592000"  />    
     <a  href="https://www.apache.org/licenses/LICENSE-2.0"  target="_blank">  
         <img  alt="License: Apache 2.0"  src="https://img.shields.io/badge/License-Apache 2.0-yellow.svg"  />  
     </a> 
@@ -20,7 +20,7 @@
 > If you want to integrate SpaceONE with the monitoring system you are operated, deliver the events to this plugin webhook.
 
 Find us also at [Dockerhub](https://hub.docker.com/repository/docker/spaceone/plugin-api-direct-mon-webhook)
-> Latest stable version : 1.2.4
+> Latest stable version : 1.2.5
 
 Please contact us if you need any further information. (support@spaceone.dev)
 
@@ -116,13 +116,15 @@ Confirm the URL of the webhook.
 
 ## Release note
 
+### Ver 1.2.5
+Enhancement
+- Add option to confirm the URL of the webhook
+
 ### Ver 1.2.4
 Enhancement
 - Add option to load json in the data of the request
 - Add option to convert the data of the request using the jinja2 template
-- Add option to confirm the URL of the webhook
 
 ### Ver 1.1
-
 Enhancement
 - Add validation in API Direct Webhook [#7](https://github.com/spaceone-dev/plugin-api-direct-mon-webhook/issues/7)
