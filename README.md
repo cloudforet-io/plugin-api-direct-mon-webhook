@@ -87,7 +87,7 @@ Load the json in the data of the request.
 ```
 
 ### convert_data
-Convert the data~~~~ of the request using the jinja2 template.
+Convert the data of the request using the jinja2 template.
 ```json
 {
     "options": {
@@ -104,12 +104,23 @@ Convert the data~~~~ of the request using the jinja2 template.
 }
 ```
 
+### confirm_url
+Confirm the URL of the webhook.
+```json
+{
+    "options": {
+        "confirm_url": "SubscribeURL"
+    }
+}
+```
+
 ## Release note
 
 ### Ver 1.2.4
 Enhancement
-- Add option to load json in the body of the request
-- Add option to convert the body of the request using the jinja2 template
+- Add option to load json in the data of the request
+- Add option to convert the data of the request using the jinja2 template
+- Add option to confirm the URL of the webhook
 
 ### Ver 1.1
 
