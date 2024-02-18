@@ -5,7 +5,7 @@
   <img width="245" src="https://user-images.githubusercontent.com/35549653/76694897-de236300-66bb-11ea-9ace-b9edde9c12da.png">  
   <p> 
    <br>
-    <img  alt="Version"  src="https://img.shields.io/badge/version-1.1-blue.svg?cacheSeconds=2592000"  />    
+    <img  alt="Version"  src="https://img.shields.io/badge/version-1.2.4-blue.svg?cacheSeconds=2592000"  />    
     <a  href="https://www.apache.org/licenses/LICENSE-2.0"  target="_blank">  
         <img  alt="License: Apache 2.0"  src="https://img.shields.io/badge/License-Apache 2.0-yellow.svg"  />  
     </a> 
@@ -74,8 +74,7 @@ Please contact us if you need any further information. (support@spaceone.dev)
 
 ## Supported options
 ### load_json
-Load the json in the body of the request.
-Example:
+Load the json in the data of the request.
 ```json
 {
     "options": {
@@ -88,8 +87,7 @@ Example:
 ```
 
 ### convert_data
-Convert the body of the request using the jinja2 template.
-Example:
+Convert the data~~~~ of the request using the jinja2 template.
 ```json
 {
     "options": {
