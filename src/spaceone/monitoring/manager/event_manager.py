@@ -1,9 +1,14 @@
 import logging
+import jinja2
+
+from spaceone.core import utils
 from spaceone.core.manager import BaseManager
 from spaceone.monitoring.model.event_response_model import EventModel
 from spaceone.monitoring.error.event import *
 
 _LOGGER = logging.getLogger(__name__)
+JINJA_ENV = jinja2.Environment(loader=jinja2.BaseLoader())
+
 
 
 class EventManager(BaseManager):
@@ -11,24 +16,23 @@ class EventManager(BaseManager):
         super().__init__(*args, **kwargs)
 
     def parse(self, options, data):
-        """ data sample
-            "data": {
-                "event_key": "",
-                "event_type": "ALERT" | "RECOVERY",
-                "title": "",
-                "description": "",
-                "severity": "CRITICAL" | "ERROR" | "WARNING" | "INFO" | "NOT_AVAILABLE" | NONE(default),
-                "rule": "",
-                "image_url": "",
-                "resource": {
-                    "resource_id",
-                    "resource_type",
-                    "name"
-                },
-                "additional_info": {
-                },
-                "occurred_at": ""
-            }
+        """ Data Structure
+        {
+            'event_key': 'str',
+            'event_type': 'ALERT' | 'RECOVERY',
+            'title': 'str',
+            'description': 'str',
+            'severity': 'CRITICAL' | 'ERROR' | 'WARNING' | 'INFO' | 'NOT_AVAILABLE' | NONE(default),
+            'rule': 'str',
+            'image_url': 'str',
+            'resource': {
+                'resource_id': 'str',
+                'resource_type': 'str',
+                'name': 'str'
+            },
+            'additional_info': 'dict',
+            'occurred_at': 'datetime'
+        }
         """
 
         try:
@@ -38,3 +42,46 @@ class EventManager(BaseManager):
 
         except Exception as e:
             raise ERROR_EVENT_PARSE()
+
+    def change_data_by_options(self, options: dict, data: dict) -> dict:
+        if load_json := options.get('load_json'):
+            data = self._load_json_data(data, load_json)
+
+        if convert_data := options.get('convert_data'):
+            data = self._convert_data(data, convert_data)
+        return data
+
+    @staticmethod
+    def _convert_data(data: dict, option: dict) -> dict:
+        converted_data = {}
+        for key in option.keys():
+            if key in ["resource", "additional_info"]:
+                if key not in converted_data:
+                    converted_data[key] = {}
+
+                for sub_key in option[key].keys():
+                    template = option[key].get(sub_key)
+                    jinja_template = JINJA_ENV.from_string(template)
+                    template_applied_value = jinja_template.render(**data)
+                    converted_data[key][sub_key] = template_applied_value
+            else:
+                template = option.get(key)
+                jinja_template = JINJA_ENV.from_string(template)
+                template_applied_value = jinja_template.render(**data)
+                converted_data[key] = template_applied_value
+
+        return converted_data
+
+    @staticmethod
+    def _load_json_data(data: dict, option: str) -> dict:
+        for key in option:
+            json_str = utils.get_dict_value(data, key)
+            if json_str:
+                try:
+                    json_data = utils.load_json(json_str)
+                    utils.change_dict_value(data, key, json_data)
+                except Exception as e:
+                    _LOGGER.error(f'Failed to load json data: {e}', exc_info=True)
+                    raise ERROR_EVENT_PARSE()
+
+        return data

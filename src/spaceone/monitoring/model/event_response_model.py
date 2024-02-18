@@ -16,6 +16,8 @@ class EventModel(Model):
     title = StringType(required=True)
     description = StringType(default='')
     severity = StringType(choices=['CRITICAL', 'ERROR', 'WARNING', 'INFO', 'NOT_AVAILABLE'], default=None)
+    provider = StringType(default='')
+    account = StringType(default='')
     resource = ModelType(ResourceModel)
     rule = StringType(default='')
     image_url = StringType(default='')

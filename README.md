@@ -20,13 +20,13 @@
 > If you want to integrate SpaceONE with the monitoring system you are operated, deliver the events to this plugin webhook.
 
 Find us also at [Dockerhub](https://hub.docker.com/repository/docker/spaceone/plugin-api-direct-mon-webhook)
-> Latest stable version : 1.1
+> Latest stable version : 1.2.4
 
 Please contact us if you need any further information. (support@spaceone.dev)
 
 ---
 
-## Supported Alert Services
+## Body of the request
 
 ```json
 {
@@ -39,6 +39,8 @@ Please contact us if you need any further information. (support@spaceone.dev)
         "severity": "ERROR",
         "rule": "this is event rule",
         "image_url": "https://sample.io/img/sdfsdf",
+        "provider": "aws",
+        "account": "aws-account-id",
         "resource": {
             "resource_id": "resource-xzasdfasdf",
             "resource_type": "server",
@@ -52,23 +54,64 @@ Please contact us if you need any further information. (support@spaceone.dev)
 }
 ```
 
-|      **Parameter**      | **Description**      | **Examples**  |
-| ----------------------- | -------------------- | ------------- | 
-| `event_key`             | event unique key     | |
-| `event_type`            | Type of event.       | `RECOVERY`, `ALERT`, `ERROR` |
-| `title`                 | Title of event       | |
-| `description`           | Description of event | |
-| `severity`              | Severity of event    | `CRITICAL`, `ERROR`, `WARNING`, `INFO`, `NOT_AVAILABLE` |
-| `rule`                  | Rule in which the event was triggered                  | |
-| `image_url`             | URL include the image associated with the event        | |
-| `resource.resource_id`  | ID of the resource which the event was generated       | |
-| `resource.resource_type`| The type of the resource which the event was generated | |
-| `resource.name`         | Name of resource | |
-| `additional_info`       | Additional information about the event. It is a dictionary type, and both key and value must be string type.| |
-| `occurred_at` | Time when the event occurred. | |
+| **Parameter**            | **Description**      | **Examples**  |
+|--------------------------| -------------------- | ------------- | 
+| `event_key`              | event unique key     | |
+| `event_type`             | Type of event.       | `RECOVERY`, `ALERT`, `ERROR` |
+| `title`                  | Title of event       | |
+| `description`            | Description of event | |
+| `severity`               | Severity of event    | `CRITICAL`, `ERROR`, `WARNING`, `INFO`, `NOT_AVAILABLE` |
+| `rule`                   | Rule in which the event was triggered                  | |
+| `image_url`              | URL include the image associated with the event        | |
+| `provider`               | Provider of the resource which the event was generated | |
+| `account`                | Account ID of the resource which the event was generated| |
+| `resource.resource_id`   | ID of the resource which the event was generated       | |
+| `resource.resource_type` | The type of the resource which the event was generated | |
+| `resource.name`          | Name of resource | |
+| `additional_info`        | Additional information about the event. It is a dictionary type, and both key and value must be string type.| |
+| `occurred_at`            | Time when the event occurred. | |
 ---
 
+## Supported options
+### load_json
+Load the json in the body of the request.
+Example:
+```json
+{
+    "options": {
+        "load_json": [
+            "Message",
+            "AdditionalInfo"
+        ]
+    }
+}
+```
+
+### convert_data
+Convert the body of the request using the jinja2 template.
+Example:
+```json
+{
+    "options": {
+        "convert_data": {
+           "event_key": "{{ Message.id }}",
+           "title": "{{ Message.detail.EventID }}",
+           "account": "{{ Message.account }}",
+           "resource": {
+               "resource_id": "{{ Message.detail.SourceArn }}"
+           },
+           "occurred_at": "{{ Message.detail.Date }}"
+       }
+    }
+}
+```
+
 ## Release note
+
+### Ver 1.2.4
+Enhancement
+- Add option to load json in the body of the request
+- Add option to convert the body of the request using the jinja2 template
 
 ### Ver 1.1
 
