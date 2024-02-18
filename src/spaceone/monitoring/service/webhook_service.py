@@ -52,5 +52,8 @@ class WebhookService(BaseService):
             elif key == 'convert_data':
                 if not isinstance(value, dict):
                     raise ERROR_INVALID_PARAMETER_TYPE(key='options.convert_data', type='dict')
+            elif key == 'confirm_url':
+                if not isinstance(value, str):
+                    raise ERROR_INVALID_PARAMETER_TYPE(key='options.confirm_url', type='str')
             else:
                 raise ERROR_NOT_SUPPORTED_OPTION(key=key)
