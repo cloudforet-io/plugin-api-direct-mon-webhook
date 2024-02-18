@@ -36,9 +36,6 @@ class EventService(BaseService):
         self._validate_additional_info_data(data)
         data = self.event_mgr.change_data_by_options(options, data)
 
-        import pprint
-        pprint.pprint(data)
-
         data.update({
             "occurred_at": utils.iso8601_to_datetime(data.get('occurred_at'))
         })
