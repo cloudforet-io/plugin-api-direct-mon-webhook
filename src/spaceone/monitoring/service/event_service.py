@@ -1,4 +1,5 @@
 import logging
+import requests
 from spaceone.core.service import *
 from spaceone.core import utils
 from spaceone.monitoring.manager.event_manager import EventManager
@@ -33,6 +34,12 @@ class EventService(BaseService):
         options = params.get('options', {})
         data = params.get('data', {})
 
+        if confirm_url_key := options.get('confirm_url'):
+            confirm_url = utils.get_dict_value(data, confirm_url_key)
+            if confirm_url:
+                self._confirm_webhook(confirm_url_key, confirm_url)
+                return []
+
         self._validate_additional_info_data(data)
         data = self.event_mgr.change_data_by_options(options, data)
 
@@ -52,3 +59,9 @@ class EventService(BaseService):
                     additional_info[str(key)] = str(value)
                 except Exception as e:
                     del additional_info[key]
+
+    @staticmethod
+    def _confirm_webhook(key, confirm_url: str) -> None:
+        r = requests.get(confirm_url)
+        _LOGGER.debug(f'[_confirm_webhook] {key}: {confirm_url}')
+        _LOGGER.debug(f'[_confirm_webhook] {r.status_code} {r.content}')
